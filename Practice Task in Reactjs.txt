@@ -1,0 +1,48 @@
+// Find Name character wise
+   const arr = ["nik", "Mohit", "kalpesh", "dilip", "jitsa", "Chirag"];
+   for (let i = 0; i <= arr.length; i++) {
+     if (arr[i] && arr[i].length === 3) {
+       console.log(arr[i]);
+     }
+   }
+ 
+find second Largest Number between numbers
+   console.log(Math.max(2,5,8,7,6,1)-1)
+
+   let numberArr = [2,5,8,7,6,1]
+   console.log(numberArr)
+  let largestNumber = numberArr[0]
+   for(let i = 0 ; i <= numberArr.length ; i++){
+    if(numberArr[i] > largestNumber){
+       largestNumber = numberArr[i]
+     }
+   }
+   console.log(largestNumber)
+
+  //========================================================
+   let numberarr = [5, 6, 8, 7, 63,88, 9, 56, 78];
+   let largestNumber = numberarr[0];
+   let secondLargestNumber = numberarr[0];
+
+   for (let i = 0; i <= numberarr.length; i++) {
+     if (numberarr[i] > largestNumber) {
+       secondLargestNumber = largestNumber
+       largestNumber = numberarr[i];
+     }
+     else if(numberarr[i] > secondLargestNumber){
+       secondLargestNumber = numberarr[i]
+     }
+
+   }
+   console.log(largestNumber);
+   console.log(secondLargestNumber)
+
+  // ========================================================
+
+  let newArr = [44, 22, 55, 66, 99, 877, 876];
+  newArr.sort(function (a, b) {
+    return a - b;
+  });
+  console.log(newArr);
+  let findSecondLargestNumber = newArr[newArr.length - 2];
+  console.log(findSecondLargestNumber);
