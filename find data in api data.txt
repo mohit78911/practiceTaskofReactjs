@@ -1,0 +1,152 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Resturant from "./Componets/Resturant";
+
+export default function App() {
+  const [data, setData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [age, setAge] = useState();
+
+  const [name, setName] = useState();
+  const [last, setLast] = useState();
+  const [umar, setUmar] = useState();
+
+  const getDataHandler = () => {
+    axios
+      .get("https://64194cc775be53f451f0db4f.mockapi.io/form")
+      .then((result) => {
+        setData(result.data);
+        setFilterData(result.data);
+      });
+  };
+
+  useEffect(() => {
+    getDataHandler();
+  }, []);
+
+  const postDataHandler = (e) => {
+    e.preventDefault();
+    let newData = {
+      fname: name,
+      lname: last,
+      age: umar,
+    };
+    axios
+      .post("https://64194cc775be53f451f0db4f.mockapi.io/form", newData)
+      .then(() => getDataHandler())
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    const updatedList = data.filter((items) =>
+      items.fname.toString().toLowerCase().includes(firstName)
+    );
+    setFilterData(updatedList);
+  }, [firstName]);
+
+  useEffect(() => {
+    const updateList = data.filter((items) =>
+      items.lname.toString().toLowerCase().includes(lastName)
+    );
+    setFilterData(updateList);
+  }, [lastName]);
+
+  useEffect(() => {
+    const updateList = data.filter((items) =>
+      items.age.toString().toLowerCase().includes(age)
+    );
+    setFilterData(updateList);
+  }, [age]);
+
+  const handleResetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setAge("");
+  };
+
+  const handleGender = (e)=>{
+    const value = e.target.value
+    const gender = data.filter((items)=>items.gender === value)
+    if(value){
+      setFilterData(gender)
+    }
+    else{
+      setFilterData(data)
+    }
+  }
+  return (
+    <>
+      <div>
+        <form onSubmit={postDataHandler}>
+          <input
+            placeholder="firstName"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            placeholder="Last Name"
+            value={last}
+            onChange={(e) => setLast(e.target.value)}
+          />
+          <input
+            placeholder="age"
+            value={umar}
+            onChange={(e) => setUmar(e.target.value)}
+          />
+          <button type="submit"> dataAdd</button>
+        </form>
+        <h3>---------------------</h3>
+        <h3>search </h3>
+        <form>
+          <input
+            placeholder="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <input
+            placeholder="age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+          <select >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          
+        </form>
+        <button className="btn btn-danger" onClick={handleResetForm}>
+          Reset Form
+        </button>
+      </div>
+      <h2>table</h2>
+      <table className="table table-striped">
+        <tr>
+          <th>firstName</th>
+          <th>LastName</th>
+          <th>Age</th>
+          <th>Gender</th>
+          {/* <th>Gender</th> */}
+        </tr>
+        {filterData.map((value) => (
+          <>
+            <tr>
+              <td>{value.fname}</td>
+              <td>{value.lname}</td>
+              <td>{value.age}</td>
+              <td>{value.gender}</td>
+            
+            </tr>
+          </>
+        ))}
+      </table>
+    </>
+  );
+}
